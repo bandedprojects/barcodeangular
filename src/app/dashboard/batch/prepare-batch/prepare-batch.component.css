@@ -1,0 +1,58 @@
+
+#prepare_batch_list, #prepare-batch-form, #prepare_batch_print {    
+    padding-top:0px;
+    margin-top:10px;
+}
+
+#prepare-batch-form {
+    margin:20px;
+    padding:20px;
+}
+
+mat-form-field.mat-form-field {
+    width: 400px;
+}
+
+/*td.mat-column-audited, td.mat-column-audited1  {
+    background-color:rgb(234, 238, 241);
+    text-align: center;
+    padding-right:0px;
+}
+
+td {
+    text-align: center;
+}
+
+.mat-header-cell {
+   
+    text-align:center;
+   }
+
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+    padding-right: 0px;
+}
+
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type {
+    padding-left:0px;
+}*/
+
+table {
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+}
+#prepare_batch_list th, #prepare_batch_list td {
+    color: #000;
+    border-right:1px solid #000;
+    border-bottom: 1px solid #000;  
+    width: 70px;    
+    padding: 0px 5px;    
+    text-align: center;
+}
+
+#prepare_batch_list th {
+    font-weight: bold;    
+}
+
+#prepare_batch_list tr {
+    height: 20px
+}

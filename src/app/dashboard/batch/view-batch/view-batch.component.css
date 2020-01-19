@@ -1,0 +1,10 @@
+table {
+    width: 100%;
+  }
+
+  #view_batch_list {
+    width:95%;    
+    padding-top:0px;
+    margin-top:10px;
+}
+

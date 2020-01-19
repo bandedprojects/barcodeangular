@@ -1,0 +1,53 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <div fxFlex fxLayout fxLayoutAlign="flex-start" fxLayoutGap="20px">
+          <div fxFlex="30%"><span> Kalliyath </span></div>
+          <div *ngFor="let nav of navList">
+              <button mat-button (click)="navBarClick(nav);" [routerLink]="nav.url" [color]="nav.color">{{ nav.title }}</button>
+          </div>
+         
+      </div>
+     
+      <div fxFlex fxLayout fxLayoutAlign="flex-end">
+        <!--<ul fxLayout fxLayoutGap="20px">
+          <li fxHide.xs>
+            <button mat-icon-button>
+              <mat-icon>settings</mat-icon>
+            </button>
+          </li>
+          <li fxHide.xs>
+            <button mat-icon-button>
+              <mat-icon>help_outline</mat-icon>
+            </button>
+          </li>
+          <li>
+            <button mat-icon-button>
+              <mat-icon>person_outline</mat-icon>
+            </button>
+            <mat-menu #auth="matMenu">
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Sign out</span>
+              </button>
+            </mat-menu>
+          </li>
+    
+        </ul>-->
+
+        <mat-menu #profileMenu="matMenu">
+          <button mat-menu-item (click)="onLogout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Sign out</span>
+          </button>
+        </mat-menu>
+
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+          <mat-icon>person_outline</mat-icon>
+        </button>
+       
+    
+      </div>
+    
+    </mat-toolbar-row>
+    
+    </mat-toolbar>

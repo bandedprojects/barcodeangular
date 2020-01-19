@@ -1,0 +1,16 @@
+<div fxLayout="column" fxFlexFill>
+<app-header *ngIf="isAuth"></app-header>  
+<mat-sidenav-container fxFlex fxLayout="column">   
+        <mat-sidenav #sidenav  mode="side" opened  *ngIf="isAuth"
+        fixedInViewport="false" fixedTopGap="0"
+        fixedBottomGap="0">
+            <mat-nav-list fxFlex fxLayout="column">
+                <a mat-list-item *ngFor="let panel of sideNav" [routerLink]="panel.url" routerLinkActive="active-list-item">{{ panel.name }}</a>
+            </mat-nav-list>
+        </mat-sidenav>
+     
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

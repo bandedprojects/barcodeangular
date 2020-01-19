@@ -1,0 +1,38 @@
+table {
+    width:100%
+}
+
+#create-batch-form, #create_batch_table {
+    width:50%;
+    margin:50px;
+    padding:20px;
+    padding-top:0px;
+    margin-top:10px;
+}
+
+#create-batch-form {
+    margin-top:20px;
+}
+
+td.mat-column-audited, td.mat-column-audited1  {
+    background-color:rgb(234, 238, 241);
+    text-align: center;
+    padding-right:0px;
+}
+
+td {
+    text-align: center;
+}
+
+.mat-header-cell {
+   
+    text-align:center;
+   }
+
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+    padding-right: 0px;
+}
+
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type {
+    padding-left:0px;
+}

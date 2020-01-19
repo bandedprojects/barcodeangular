@@ -1,0 +1,75 @@
+<section fxLayout="column" fxFlex="100%" fxLayoutAlign="center" fxLayoutGap ="30px" >
+    <section fxLayout fxFlex ="100%" fxLayoutAlign="center">   
+        <mat-card fxFlex="500px">
+            <mat-card-title></mat-card-title>  
+            
+                <mat-card-content >      
+                        <form [formGroup]="searchSerialNoForm" (ngSubmit) = "onSearchClick()" fxLayoutAlign="center" fxLayoutGap="10px">         
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Serial Number" formControlName="serialno" required>
+                    </mat-form-field>
+                    
+                    <div fxLayout="row" fxfill fxLayoutGap ="20px" fxLayoutAlign="space-evenly center">
+                        <button mat-raised-button color="primary">Search</button>
+                    </div>    
+                </form>           
+                </mat-card-content>                           
+            
+        </mat-card>
+    </section>
+    <section fxLayout fxFlex ="100%" fxLayoutAlign="center" *ngIf="showRejectForm" >   
+        <mat-card fxLayout="column" fxLayoutAlign="center" fxFlex="500px">          
+                <mat-card-content > 
+                    <form  [formGroup]="modifyRejectionsForm" (ngSubmit) = "onRejectSubmit()" fxLayout ="column" fxLayoutGap ="10px" fxLayoutAlign="center center">
+                            <mat-form-field>
+                                    <input 
+                                        type="text" 
+                                        matInput 
+                                        placeholder="Batch Name"
+                                        formControlName="batchname"                                       
+                                        required>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                    <input 
+                                        type="text" 
+                                        matInput 
+                                        placeholder="Serial number"
+                                        formControlName="serialnumber"               
+                                        required>
+                                    </mat-form-field>    
+                                    <mat-form-field fxLayout="column">                                      
+                                        <mat-select formControlName="rejectionstatus"  placeholder="Status">
+                                            <mat-option *ngFor="let status of status_list" [value]="status.value">
+                                            {{status.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field fxLayout="column">                                      
+                                        <mat-select formControlName="rejectiontype"  placeholder="Reject Reason">
+                                            <mat-option *ngFor="let rejection_type of rejection_types" [value]="rejection_type.value">
+                                            {{rejection_type.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                            <input 
+                                                type="text" 
+                                                matInput 
+                                                placeholder="Comment"
+                                                formControlName="comments"               
+                                                required>
+                                            </mat-form-field>    
+                                    <div>
+                                            <button mat-raised-button color="primary">Modify</button>        
+                                    </div>
+                            
+                    </form>
+                        
+                
+                </mat-card-content>                           
+            
+        </mat-card>
+    </section>
+
+   
+</section>

@@ -1,0 +1,194 @@
+<section fxLayout="column" fxFlex="100%" fxLayoutAlign="center" fxLayoutGap ="30px" >
+    <section fxLayout fxFlex ="100%" fxLayoutAlign="center">   
+        <mat-card fxFlex="500px">
+            <mat-card-title></mat-card-title>  
+            
+                <mat-card-content >      
+                <form [formGroup]="tareweightReportForm" (ngSubmit) = "onGenerateClick()" fxLayoutAlign="center" fxLayoutGap="10px">         
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Enter Batch Name" formControlName="batch_name" required>
+                    </mat-form-field>
+                    
+                    <div fxLayout="row" fxfill fxLayoutGap ="20px" fxLayoutAlign="space-evenly center">
+                        <button mat-raised-button color="primary">Generate Report</button>
+                    </div>    
+                </form>           
+                </mat-card-content>
+        </mat-card>
+    </section>
+
+    <section fxLayout fxFlex ="100%" fxLayoutAlign="center" *ngIf="showReport">
+        <div fxLayout="column" fxLayoutAlign="end" fxFlex="800px" style="text-align:right">
+            <div>
+                    <button mat-raised-button color="primary" [useExistingCss]="true" printSectionId="hst_reports_div" ngxPrint>Print</button>  
+            </div>                  
+        </div>                
+    </section>  
+
+    <section fxLayout fxFlex ="100%" fxLayoutAlign="center" *ngIf="showReport" >              
+            
+        <mat-card fxLayout="column" fxLayoutAlign="center" fxFlex="800px">          
+            <mat-card-content style="padding:20px" id="hst_reports_div" fxLayout="column" fxLayoutAlign="center">
+                <div style="border:1px solid #000; border-bottom:0px;" fxLayout="column">
+                    <div fxLayout="column" style="width:100%" fxLayoutAlign="center" style="text-align:center">   
+                        <h3 class="mat-h3" style="border-bottom:1px solid #000;margin-bottom:0px;">KAIRALI STRUCTURAL FABRICATION PVT LTD</h3>
+                    
+                        <div class="mat-body">SIDCO INDUSTRIAL PARK, ANGAMALY</div>                 
+                    </div>
+    
+                    <div style="width:100%;padding:10px;padding-bottom:5px" fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="20px">
+                        <div>
+                            <div>
+                                    STAGE: TAREWEIGHT REPORT
+                            </div>
+                            <div>
+                                Name of Inspector: 
+                            </div>
+                            <div>
+                                BATCH NO: {{ batchName}}
+                            </div>
+                        
+                        </div>
+                       
+                        <div>
+                            <div>
+                                Date: 
+                            </div> 
+                            <div>
+                                Shift: 
+                            </div>
+                        </div>
+                        <div fxFlex="10%">
+
+                        </div>
+                    </div>
+                    <div style="width:100%;padding-left:10px; padding-bottom:10px;" fxFlex="100%" fxLayout="column" fxLayoutAlign="start">
+                        <div>
+                            <span style="margin-right:10px">Cylinder Sl No. From: {{ serial_start}}</span> <span> To: {{ serial_end}}</span> 
+                        </div>
+                    </div>
+                </div>
+                
+               
+                
+                <table style="width:auto" mat-table [dataSource]="dataSource" id="hst_reports">
+                    <ng-container matColumnDef="serial_no1">
+                        <th mat-header-cell *matHeaderCellDef> Sl No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serial_no1}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="tare_weight1">
+                        <th mat-header-cell *matHeaderCellDef> Tare weight (kg) </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <div style="width:100%;">
+                                <table style="width:100%" style="border:0px;">
+                                    <tr>
+                                        <td style="border-bottom:0px;">
+                                            {{element.tare_weight_left1}} 
+                                        </td>
+                                        <td style="border:0px;">
+                                            {{element.tare_weight_right1}}
+                                        </td>
+                                    </tr>
+                                </table>                                  
+                            </div>
+                        </td>
+                        
+                    </ng-container> 
+                    
+                    <ng-container matColumnDef="tareweight1">
+                        <th mat-header-cell *matHeaderCellDef> Tare weight (kg)  </th>
+                        <td mat-cell *matCellDef="let element"> {{element.tareweight1}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="serial_no2">
+                        <th mat-header-cell *matHeaderCellDef> Sl No.  </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serial_no2}} </td>
+                    </ng-container>   
+                    
+                    <ng-container matColumnDef="tare_weight2">
+                        <th mat-header-cell *matHeaderCellDef> Tare weight (kg)</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div style="width:100%;">
+                                <table style="width:100%" style="border:0px;">
+                                    <tr>
+                                        <td style="border-bottom:0px;">
+                                            {{element.tare_weight_left2}} 
+                                        </td>
+                                        <td style="border:0px;">
+                                            {{element.tare_weight_right2}}
+                                        </td>
+                                    </tr>
+                                </table>                                  
+                            </div> 
+                        </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="tareweight2">
+                        <th mat-header-cell *matHeaderCellDef> Tare weight (kg)</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tareweight2}} </td>
+                    </ng-container>   
+                    
+                    <!--<ng-container matColumnDef="serial_no4">
+                        <th mat-header-cell *matHeaderCellDef> Sl No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serial_no4}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="status4">
+                        <th mat-header-cell *matHeaderCellDef> Result </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status4}} </td>
+                    </ng-container>  
+                    
+                    <ng-container matColumnDef="serial_no5">
+                        <th mat-header-cell *matHeaderCellDef> Sl No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serial_no5}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="status5">
+                        <th mat-header-cell *matHeaderCellDef> Result </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status5}} </td>
+                    </ng-container>       
+
+                    <ng-container matColumnDef="serial_no6">
+                        <th mat-header-cell *matHeaderCellDef> Sl No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serial_no6}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="status6">
+                        <th mat-header-cell *matHeaderCellDef> Result </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status6}} </td>
+                    </ng-container>       -->
+        
+        
+                    <!--<ng-container matColumnDef="serial_no1">
+                        <th mat-header-cell *matHeaderCellDef> Serial No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serial_no1}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="audited1">
+                        <th mat-header-cell *matHeaderCellDef> Result</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <mat-checkbox *ngIf="element.audited1 != undefined" [(ngModel)]="element.audited1"></mat-checkbox> 
+                        </td>
+                    </ng-container>   -->
+            
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>         
+                </table>    
+                <div style="border:1px solid #000; border-top:0px;" fxLayout="column">
+                    <div style="width:100%;padding:10px;" fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="20px">
+                        <div>
+                            GE INSPECTOR: 
+                        </div> 
+                        <div>
+                            QUALITY IN CHARGE: PRAVEEN R
+                        </div>
+                    </div>
+                </div> 
+            </mat-card-content>          
+        </mat-card>
+    </section>
+
+   
+</section>
