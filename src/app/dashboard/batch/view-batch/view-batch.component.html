@@ -7,6 +7,11 @@
             <td mat-cell *matCellDef="let element"> {{element.batchname}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="batchtype">
+            <th mat-header-cell *matHeaderCellDef> Batch Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.batchtype}}</td>
+        </ng-container>
+
         <ng-container matColumnDef="serial_start">
             <th mat-header-cell *matHeaderCellDef> Serial Start </th>
             <td mat-cell *matCellDef="let element"> {{element.serial_start}}</td>
@@ -20,6 +25,15 @@
         <ng-container matColumnDef="total_cylinders">
             <th mat-header-cell *matHeaderCellDef> Total Cylinders </th>
             <td mat-cell *matCellDef="let element"> {{element.total_cylinders}}</td>            
+        </ng-container> 
+
+        <ng-container matColumnDef="batchcreator">
+            <th mat-header-cell *matHeaderCellDef> Batch Creator </th>
+            <td mat-cell *matCellDef="let element"> {{element.batchcreator}}</td>            
+        </ng-container> 
+        <ng-container matColumnDef="punchinginstructor">
+            <th mat-header-cell *matHeaderCellDef> Punching instructor </th>
+            <td mat-cell *matCellDef="let element"> {{element.punchinginstructor}}</td>            
         </ng-container> 
         
         <!--<ng-container matColumnDef="audited1">

@@ -5,6 +5,14 @@
                 <mat-card-content >      
                 <form fxLayout="column" [formGroup]="printBarcodeForm" (ngSubmit) = "onSaveAndPrintClick()" fxLayoutAlign="center" fxLayoutGap="10px">         
                     <mat-form-field>
+                        <mat-select formControlName="batchtype"  placeholder="Batch Type">
+                            <mat-option *ngFor="let batchtype of batchtypes" [value]="batchtype.value">
+                            {{batchtype.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>       
+                  
+                    <mat-form-field>
                         <input type="text" matInput placeholder="Batch Name" formControlName="batchname" required>
                     </mat-form-field>
 

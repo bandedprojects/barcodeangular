@@ -22,7 +22,8 @@ export class PrepareBatchComponent implements OnInit {
  
   batchtypes: any[] = [
     {value: 'KI', viewValue: 'KI'},
-    {value: 'KB', viewValue: 'IC'},
+    {value: 'KB', viewValue: 'KB'},
+    {value: 'IC', viewValue: 'IC'},    
     {value: 'HC', viewValue: 'HC'},
     {value: 'BC', viewValue: 'BC'}
   ];
@@ -46,16 +47,23 @@ export class PrepareBatchComponent implements OnInit {
       batch_name: new FormControl(''),
       starting_serial_no: new FormControl(''),
       ending_serial_no: new FormControl('')
-    });  
+    });     
+  }
 
-    this.batchService.getLastSerial().subscribe(responseData => {
-      if(responseData.data.lastserialnuber) {
-        this.lastSerialNumber = responseData.data.lastserialnuber;
+  batchTypeSelect() {
+    console.log('select change');
+    console.log(this.prepareBatchForm.value.batchtype);
+
+    let data = {
+      batchtype: this.prepareBatchForm.value.batchtype
+    }
+
+    this.batchService.getLastSerial(data).subscribe(responseData => {
+      this.lastSerialNumber = (responseData.data.lastserialnuber) ? responseData.data.lastserialnuber: "";
+    
         this.prepareBatchForm.patchValue({
           starting_serial_no: this.lastSerialNumber
-        });
-        //this.prepareBatchForm.get('starting_serial_no').disable();
-      }      
+        })
     })
   }
 

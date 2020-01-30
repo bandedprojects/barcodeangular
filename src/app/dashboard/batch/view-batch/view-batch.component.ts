@@ -10,7 +10,7 @@ import { NavListService } from 'src/app/navigation/navlist.service';
   styleUrls: ['./view-batch.component.css']
 })
 export class ViewBatchComponent implements OnInit {
-  displayedColumns: string[] = ['batchname', 'serial_start','serial_end','total_cylinders'];  
+  displayedColumns: string[] = ['batchname', 'batchtype','serial_start','serial_end','total_cylinders','batchcreator','punchinginstructor'];  
   //dataSource = new BehaviorSubject([]);
   dataSource = new MatTableDataSource<any>();
 
@@ -31,6 +31,7 @@ export class ViewBatchComponent implements OnInit {
     this.batchService.getBatchList()
       .pipe(map(responseData => {
         const batchesArray = [];
+        console.log(responseData.data.batches);
 
         for(const key in responseData.data.batches) {
           const batch = responseData.data.batches[key];
@@ -38,9 +39,12 @@ export class ViewBatchComponent implements OnInit {
 
           batchesArray.push({
             batchname: batch.batchname,
+            batchtype: batch.batchtype,
             serial_start: batch.serial_start,
             serial_end: batch.serial_end,
-            total_cylinders: total_cylinders + 1
+            total_cylinders: total_cylinders + 1,
+            batchcreator: 'test',
+            punchinginstructor: 'test'
           });
         }
 

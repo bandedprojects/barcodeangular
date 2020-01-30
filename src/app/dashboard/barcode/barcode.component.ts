@@ -14,6 +14,13 @@ export class BarcodeComponent implements OnInit {
   batchesList = [];
   barcode_weight;
   serial_no;
+  batchtypes: any[] = [
+    {value: 'KI', viewValue: 'KI'},
+    {value: 'KB', viewValue: 'KB'},
+    {value: 'IC', viewValue: 'IC'},    
+    {value: 'HC', viewValue: 'HC'},
+    {value: 'BC', viewValue: 'BC'}
+  ];
 
  
   showBarCode = false;
@@ -24,6 +31,7 @@ export class BarcodeComponent implements OnInit {
   ngOnInit() {
     this.printBarcodeForm = new FormGroup({
       batchname: new FormControl('',Validators.required),
+      batchtype: new FormControl(''),
       serialnumber: new FormControl('',Validators.required),
       weight: new FormControl('',Validators.required)
     });

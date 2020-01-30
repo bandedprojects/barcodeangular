@@ -4,7 +4,14 @@
             <mat-card-title></mat-card-title>  
             
                 <mat-card-content >      
-                        <form [formGroup]="searchSerialNoForm" (ngSubmit) = "onSearchClick()" fxLayoutAlign="center" fxLayoutGap="10px">         
+                    <form [formGroup]="searchSerialNoForm" (ngSubmit) = "onSearchClick()" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">  
+                    <mat-form-field>
+                        <mat-select formControlName="batchtype"  placeholder="Batch Type">
+                            <mat-option *ngFor="let batchtype of batchtypes" [value]="batchtype.value">
+                            {{batchtype.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>       
                     <mat-form-field>
                         <input type="text" matInput placeholder="Serial Number" formControlName="serialno" required>
                     </mat-form-field>
@@ -26,14 +33,29 @@
                                         type="text" 
                                         matInput 
                                         placeholder="Batch Name"
+                                        readOnly
+                                        [readonly]="isReadonly"
                                         formControlName="batchname"                                       
                                         required>
                                     </mat-form-field>
+                                    <mat-form-field>
+                                        <input 
+                                            type="text" 
+                                            matInput 
+                                            placeholder="Batch Type"
+                                            readonly
+                                            [readonly]="isReadonly"
+                                            formControlName="batchtype"               
+                                            required>
+                                        </mat-form-field>    
+                                       
                                     <mat-form-field>
                                     <input 
                                         type="text" 
                                         matInput 
                                         placeholder="Serial number"
+                                        readonly
+                                        [readonly]="isReadonly"
                                         formControlName="serialnumber"               
                                         required>
                                     </mat-form-field>    

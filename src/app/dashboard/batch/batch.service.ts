@@ -192,8 +192,8 @@ export class BatchService {
         return this.http.get<any>('/batches/'+id);
     }
 
-    getLastSerial() {
-        return this.http.get<any>('/lastserial');
+    getLastSerial(data:any) {
+        return this.http.post<any>('/lastserial',data);
     }
 
     rejectCylinder(data:any) {

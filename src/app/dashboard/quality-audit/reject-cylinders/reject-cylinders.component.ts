@@ -14,6 +14,7 @@ export class RejectCylindersComponent implements OnInit {
   searchSerialNoForm: FormGroup;
   rejectCylinderForm: FormGroup;
   showRejectForm = false;
+  isReadonly = false;
   batches = [];
   rejection_types: any[] = [
     {value: 'HST', viewValue: 'HST'},
@@ -21,16 +22,25 @@ export class RejectCylindersComponent implements OnInit {
     {value: 'BIS', viewValue: 'BIS Audit'},
     {value: 'Custom', viewValue: 'Custom'}
   ];
+  batchtypes: any[] = [
+    {value: 'KI', viewValue: 'KI'},
+    {value: 'KB', viewValue: 'KB'},
+    {value: 'IC', viewValue: 'IC'},    
+    {value: 'HC', viewValue: 'HC'},
+    {value: 'BC', viewValue: 'BC'}
+  ];
 
   constructor(private batchService: BatchService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.searchSerialNoForm = new FormGroup({
+      batchtype: new FormControl(''),
       serialno: new FormControl('')
     });  
 
     this.rejectCylinderForm = new FormGroup({
       batchname: new FormControl(''),
+      batchtype: new FormControl(''),
       serialnumber: new FormControl(''),
       rejectiontype: new FormControl(''),
       comments: new FormControl('')
@@ -57,8 +67,9 @@ export class RejectCylindersComponent implements OnInit {
     
     if(this.batches.length) {
       const serialno = parseInt(this.searchSerialNoForm.value.serialno);
+      const batchtype = this.searchSerialNoForm.value.batchtype;
       const searchBatch = this.batches.find(element => {
-        if(parseInt(element.serial_start) <= serialno && parseInt(element.serial_end) >= serialno) {
+        if(element.batchtype == batchtype && (parseInt(element.serial_start) <= serialno && parseInt(element.serial_end) >= serialno)) {
           return element;
         }
       });
@@ -67,8 +78,10 @@ export class RejectCylindersComponent implements OnInit {
         this.showRejectForm = true;
         this.rejectCylinderForm.patchValue({
           batchname: searchBatch.batchname,
-          serialnumber: serialno
-        });        
+          serialnumber: serialno,
+          batchtype: searchBatch.batchtype
+        });     
+        this.isReadonly = true;   
       } else {
         this.invalidSerialNumber();           
       }           

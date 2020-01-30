@@ -17,7 +17,8 @@ export class CreateBatchComponent implements OnInit {
   displayedColumns: string[] = ['name', 'sl_no_range','cylinders_count','rejections_count', 'status'];  
   batchtypes: any[] = [
     {value: 'KI', viewValue: 'KI'},
-    {value: 'KB', viewValue: 'IC'},
+    {value: 'KB', viewValue: 'KB'},
+    {value: 'IC', viewValue: 'IC'},
     {value: 'HC', viewValue: 'HC'},
     {value: 'BC', viewValue: 'BC'}
   ];
@@ -41,7 +42,7 @@ export class CreateBatchComponent implements OnInit {
     });  
     this.dataSource.data = this.batchService.getBatchDataSource();
 
-    this.batchService.getLastSerial().subscribe(responseData => {
+    /*this.batchService.getLastSerial().subscribe(responseData => {
       if(responseData.data.lastserialnuber) {
         this.lastSerialNumber = responseData.data.lastserialnuber;
         this.createBatchForm.patchValue({
@@ -49,6 +50,20 @@ export class CreateBatchComponent implements OnInit {
         });
         //this.createBatchForm.get('serial_start').disable();
       }      
+    })*/
+  }
+
+  batchTypeSelect() {
+    let data = {
+      batchtype: this.createBatchForm.value.batchtype
+    }
+
+    this.batchService.getLastSerial(data).subscribe(responseData => {
+      this.lastSerialNumber = (responseData.data.lastserialnuber) ? responseData.data.lastserialnuber: "";
+    
+        this.createBatchForm.patchValue({
+          serial_start: this.lastSerialNumber
+        })
     })
   }
 

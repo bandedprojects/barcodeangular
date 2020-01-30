@@ -14,6 +14,14 @@ export class RejectedCylindersComponent implements OnInit {
   filterForm: FormGroup;
   searchData = [];
   displayRejectedCylinders = false;
+  batchtypes: any[] = [
+    {value: 'KI', viewValue: 'KI'},
+    {value: 'KB', viewValue: 'KB'},
+    {value: 'IC', viewValue: 'IC'},    
+    {value: 'HC', viewValue: 'HC'},
+    {value: 'BC', viewValue: 'BC'}
+  ];
+
   options: string[] = ['One', 'Two', 'Three'];
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['position','batchname', 'serial_number','rejection_type','comments'];  
@@ -23,7 +31,8 @@ export class RejectedCylindersComponent implements OnInit {
 
   ngOnInit() {
     this.searchBatchNameForm = new FormGroup({
-      batchname: new FormControl('')
+      batchname: new FormControl(''),
+      batchtype: new FormControl('')
     });  
     this.filterForm = new FormGroup({
       filterValue: new FormControl('')
@@ -37,7 +46,8 @@ export class RejectedCylindersComponent implements OnInit {
 
   onSearchClick() {
     let data = {
-      "batchname": this.searchBatchNameForm.value.batchname
+      "batchname": this.searchBatchNameForm.value.batchname,
+      "batchtype": this.searchBatchNameForm.value.batchtype
     }
     
     this.batchService.rejectedCylindersList(data).subscribe(responseData => {

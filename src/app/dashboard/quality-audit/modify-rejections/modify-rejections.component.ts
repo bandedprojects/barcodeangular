@@ -22,6 +22,14 @@ export class ModifyRejectionsComponent implements OnInit {
     {value: 'BIS', viewValue: 'BIS Audit'},
     {value: 'Custom', viewValue: 'Custom'}
   ];
+  batchtypes: any[] = [
+    {value: 'KI', viewValue: 'KI'},
+    {value: 'KB', viewValue: 'KB'},
+    {value: 'IC', viewValue: 'IC'},
+    {value: 'HC', viewValue: 'HC'},
+    {value: 'BC', viewValue: 'BC'}
+  ];
+
   status_list: any[] = [
     {value: '1', viewValue: 'Rejected'},
     {value: '0', viewValue: 'OK'}
@@ -31,6 +39,7 @@ export class ModifyRejectionsComponent implements OnInit {
 
   ngOnInit() {
     this.searchSerialNoForm = new FormGroup({
+      batchtype: new FormControl(''),
       serialno: new FormControl('')
     });  
 
@@ -73,15 +82,18 @@ export class ModifyRejectionsComponent implements OnInit {
     
     if(this.batches.length) {
       const serialno = parseInt(this.searchSerialNoForm.value.serialno);
+      const batchtype = this.searchSerialNoForm.value.batchtype;
+      
       const searchBatch = this.batches.find(element => {
-        if(parseInt(element.serial_start) <= serialno && parseInt(element.serial_end) >= serialno) {
+        if(element.batchtype == batchtype && (parseInt(element.serial_start) <= serialno && parseInt(element.serial_end) >= serialno)) {
           return element;
         }
       });
 
       if(searchBatch && searchBatch.batchname) {
         let data = {
-          "batchname": searchBatch.batchname
+          "batchname": searchBatch.batchname,
+          "batchtype": searchBatch.batchtype
         }
         
         this.batchService.rejectedCylindersList(data).subscribe(responseData => {
