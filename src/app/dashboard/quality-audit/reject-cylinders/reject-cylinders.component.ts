@@ -25,6 +25,7 @@ export class RejectCylindersComponent implements OnInit {
   batchtypes: any[] = [
     {value: 'KI', viewValue: 'KI'},
     {value: 'KB', viewValue: 'KB'},
+    {value: 'KH', viewValue: 'KH'},    
     {value: 'IC', viewValue: 'IC'},    
     {value: 'HC', viewValue: 'HC'},
     {value: 'BC', viewValue: 'BC'}
@@ -54,10 +55,10 @@ export class RejectCylindersComponent implements OnInit {
   );
   }
 
-  invalidSerialNumber() {
+  invalidSerialNumber(batchtype) {
     let dialogRef = this.dialog.open(AppDialogComponent, { 
       data: {
-        description: "Serial number can not find in any batch."
+        description: "Serial number not found in batch type "+batchtype
       }
     });
     this.showRejectForm = false;   
@@ -83,10 +84,15 @@ export class RejectCylindersComponent implements OnInit {
         });     
         this.isReadonly = true;   
       } else {
-        this.invalidSerialNumber();           
+        this.invalidSerialNumber(batchtype);           
       }           
     } else {
-      this.invalidSerialNumber();    
+      let dialogRef = this.dialog.open(AppDialogComponent, { 
+        data: {
+          description: "No batch found "
+        }
+      });
+      this.showRejectForm = false;
     }
     
   }

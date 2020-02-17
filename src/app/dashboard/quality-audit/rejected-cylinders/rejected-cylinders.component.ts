@@ -17,6 +17,7 @@ export class RejectedCylindersComponent implements OnInit {
   batchtypes: any[] = [
     {value: 'KI', viewValue: 'KI'},
     {value: 'KB', viewValue: 'KB'},
+    {value: 'KH', viewValue: 'KH'},    
     {value: 'IC', viewValue: 'IC'},    
     {value: 'HC', viewValue: 'HC'},
     {value: 'BC', viewValue: 'BC'}

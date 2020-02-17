@@ -1,5 +1,5 @@
 import { BatchItem } from './batch-item.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Batch } from './batch.model';
 
 export class BatchService {
@@ -51,7 +51,7 @@ export class BatchService {
                 let status_key = "status"+j;
                 batchItem = {
                     ...batchItem,
-                    [serial_no_index]: start_slno,
+                    [serial_no_index]: start_slno.toString().padStart(6,'0'),
                     [status_key]: status
                 }
                 
@@ -107,7 +107,7 @@ export class BatchService {
                 let tareweight = "tareweight"+j;
                 batchItem = {
                     ...batchItem,
-                    [serial_no_index]: start_slno,
+                    [serial_no_index]: start_slno.toString().padStart(6,'0'),
                     [tare_weight_left]: tare_weight_left_value,
                     [tare_weight_right]: tare_weight_right_value,                    
                     [tareweight]: tareweight_value
@@ -121,6 +121,39 @@ export class BatchService {
 
         console.log(this.batchData);
         
+        return this.batchData.slice();
+    }
+
+    getSubSlot(serial_no:number,start_serial:number):string {
+        const index = Math.ceil(((serial_no +1)- start_serial)/250);
+        return String.fromCharCode(96+index).toUpperCase();
+        
+    }
+
+    prepareDispatchDataSource(data) {
+        this.batchData = [];
+        let batchItem;
+        batchItem = {};
+        let k =1;
+        for(let i=0;i<data.length;i++) {
+            let serial_no_index = "serial_no"+k;
+            let status_key = "audited"+k;
+            let status = data[i].dispatch_status == "1" ? true : false;
+            batchItem = {
+                ...batchItem,
+                [serial_no_index]: data[i].serial_number.toString().padStart(6,'0'),
+                [status_key]: status
+            }
+            if(k==6 || i == data.length-1) {
+                k=1;
+                this.batchData.push(batchItem); 
+                batchItem = {};
+            } else {
+                ++k;
+            }
+                       
+        }
+
         return this.batchData.slice();
     }
 
@@ -150,7 +183,7 @@ export class BatchService {
             ++serial_number1;
         }*/
 
-        this.batchData = [];
+       /* this.batchData = [];
         let batchItem;
         
         let col_length =  Math.ceil((end - start)/6);
@@ -164,18 +197,48 @@ export class BatchService {
                 if(start_slno > end) continue;
                 let serial_no_index = "serial_no"+j;
                 let status_key = "audited"+j;
+            
                 batchItem = {
                     ...batchItem,
-                    [serial_no_index]: start_slno,
+                    [serial_no_index]: start_slno.toString().padStart(6,'0'),
                     [status_key]: false
-                }
-                
+                }                
             }
             this.batchData.push(batchItem);  
             ++start_row_sl_no; 
             
-        }
-        
+        }*/
+
+        this.batchData = [];
+        let batchItem;
+        batchItem = {};
+        let k =1;
+
+
+        let end_serial_no =  Math.floor((start + end)/6);
+
+        let serial_number1 =  end_serial_no+1;
+       
+        for(let i= start; i <= end;i++) {      
+             
+             let serial_no_index = "serial_no"+k;
+             let status_key = "audited"+k;
+
+             batchItem = {
+                ...batchItem,
+                [serial_no_index]: i.toString().padStart(6,'0'),
+                [status_key]: false
+            }  
+            
+            if(k==6 || i == end) {
+                k=1;
+                this.batchData.push(batchItem); 
+                batchItem = {};
+            } else {
+                ++k;
+            }               
+        }  
+       
         return this.batchData.slice();
 
     }
@@ -218,5 +281,16 @@ export class BatchService {
 
     tareweightCylindersList(data:any) {
         return this.http.post<any>('/tareweightcylinders',data)
+    }
+
+    getTareWeight() {
+        const headers = new HttpHeaders({
+            'Access-Control-Allow-Origin': '*'
+          });
+        return this.http.get<any>('http://localhost:8081/api/scale/read', {headers: headers});
+    }
+
+    changeDispatch(data: any) {
+        return this.http.post<any>('/editdispatch',data);
     }
 }

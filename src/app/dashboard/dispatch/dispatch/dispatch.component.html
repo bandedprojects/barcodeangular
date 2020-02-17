@@ -1,0 +1,28 @@
+<section fxLayout="column" fxFlex="100%" fxLayoutAlign="center" fxLayoutGap ="30px" >
+    <section fxLayout fxFlex ="100%" fxLayoutAlign="center">   
+        <mat-card fxFlex="500px">
+            <mat-card-title></mat-card-title>              
+                <mat-card-content >      
+                <form fxLayout="column" [formGroup]="dispatchForm" (ngSubmit) = "onDownload()" fxLayoutAlign="center" fxLayoutGap="10px">         
+                    <mat-form-field>
+                        <mat-select formControlName="batchtype"  placeholder="Batch Type">
+                            <mat-option *ngFor="let batchtype of batchtypes" [value]="batchtype.value">
+                            {{batchtype.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>       
+                  
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Batch Name" formControlName="batchname" required>
+                    </mat-form-field>                   
+                    
+                    <div fxLayout="row" fxfill fxLayoutGap ="20px" fxLayoutAlign="space-evenly center">
+                        <button mat-raised-button color="primary">Download</button>
+                    </div>    
+                </form>     
+                       
+                </mat-card-content>
+        </mat-card>
+    </section>
+</section>
+

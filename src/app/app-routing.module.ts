@@ -14,6 +14,8 @@ import { HstreportsComponent } from './dashboard/reports/hstreports/hstreports.c
 import { PneumaticreportComponent } from './dashboard/reports/pneumatic/pneumaticreport/pneumaticreport.component';
 import { BarcodeComponent } from './dashboard/barcode/barcode.component';
 import { TareweightComponent } from './dashboard/reports/tareweight/tareweight.component';
+import { DispatchComponent } from './dashboard/dispatch/dispatch/dispatch.component';
+import { EditDispatchComponent } from './dashboard/dispatch/edit-dispatch/edit-dispatch.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -30,6 +32,8 @@ const routes: Routes = [
   {path: 'pneumaticreport', component: PneumaticreportComponent, canActivate: [AuthGuard]},
   {path: 'tareweight', component: TareweightComponent, canActivate: [AuthGuard]},
   {path: 'printbarcode', component: BarcodeComponent, canActivate: [AuthGuard]},
+  {path: 'dispatch', component: DispatchComponent, canActivate: [AuthGuard]},
+  {path: 'editdispatch', component: EditDispatchComponent, canActivate: [AuthGuard]}  
   
 ];
 

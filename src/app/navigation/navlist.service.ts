@@ -48,18 +48,16 @@ export class NavListService {
                 {name: 'Pneumatic Report', url: '/pneumaticreport'},
                 {name: 'Tare Weight Report', url: '/tareweight'}
             ]
-       /* },
+        },
         {
             name: 'dispatch',
             title: 'Dispatch',
-            url: '/preparebatch',
-            disabled
+            url: '/dispatch',
+            color:"basic",
             sidenav: [
-                { name: 'D1', url: '/preparebatch' },
-                { name: 'D2', url: '/createbatch' },
-                { name: 'D3', url: '/viewbatch' }
-            ]
-            */
+                { name: 'Dispatch', url: '/dispatch' },
+                { name: 'Edit Dispatch', url: '/editdispatch'}
+            ]            
         }
     ];
         

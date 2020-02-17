@@ -40,11 +40,11 @@ export class ViewBatchComponent implements OnInit {
           batchesArray.push({
             batchname: batch.batchname,
             batchtype: batch.batchtype,
-            serial_start: batch.serial_start,
-            serial_end: batch.serial_end,
+            serial_start: batch.serial_start.toString().padStart(6,'0'),
+            serial_end: batch.serial_end.toString().padStart(6,'0'),
             total_cylinders: total_cylinders + 1,
-            batchcreator: 'test',
-            punchinginstructor: 'test'
+            batchcreator: batch.batch_creator,
+            punchinginstructor: batch.punching_instructor
           });
         }
 

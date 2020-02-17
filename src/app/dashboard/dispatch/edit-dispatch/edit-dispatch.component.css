@@ -1,0 +1,28 @@
+
+table {
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+}
+#prepare_batch_table th, #prepare_batch_table td {
+    color: #000;
+    border-right:1px solid #000;
+    border-bottom: 1px solid #000;  
+    width: 70px;    
+    padding: 0px 5px;    
+}
+
+#prepare_batch_table th {
+    font-weight: bold;    
+}
+
+#prepare_batch_table tr {
+    height: 20px
+}
+
+.mat-checkbox-checked {
+    color: blue;
+    }
+
+ .mat-checkbox-input {
+     color: blue
+ }

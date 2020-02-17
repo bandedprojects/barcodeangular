@@ -25,6 +25,7 @@ export class ModifyRejectionsComponent implements OnInit {
   batchtypes: any[] = [
     {value: 'KI', viewValue: 'KI'},
     {value: 'KB', viewValue: 'KB'},
+    {value: 'KH', viewValue: 'KH'},    
     {value: 'IC', viewValue: 'IC'},
     {value: 'HC', viewValue: 'HC'},
     {value: 'BC', viewValue: 'BC'}
@@ -64,7 +65,7 @@ export class ModifyRejectionsComponent implements OnInit {
   invalidSerialNumber() {
     let dialogRef = this.dialog.open(AppDialogComponent, { 
       data: {
-        description: "Serial number can not find in any batch."
+        description: "Serial number found in this batch."
       }
     });
     this.showRejectForm = false;   
@@ -131,7 +132,9 @@ export class ModifyRejectionsComponent implements OnInit {
   }
 
   onRejectSubmit() {
-    this.batchService.modifyRejection(this.modifyRejectionsForm.value).subscribe(responseData => {
+    let data = this.modifyRejectionsForm.value;
+    data.batchtype = this.searchSerialNoForm.value.batchtype;
+    this.batchService.modifyRejection(data).subscribe(responseData => {
       let message = "";
 
       if(responseData.status == '0') {

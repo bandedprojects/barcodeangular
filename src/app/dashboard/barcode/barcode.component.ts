@@ -11,20 +11,22 @@ import { AppDialogComponent } from 'src/app/app-dialog/app-dialog.component';
 })
 export class BarcodeComponent implements OnInit {
   printBarcodeForm: FormGroup;
+  Subslot = "";
   batchesList = [];
   barcode_weight;
   serial_no;
+  barcode_slno;
+  barcode_txt = "";
   batchtypes: any[] = [
     {value: 'KI', viewValue: 'KI'},
     {value: 'KB', viewValue: 'KB'},
+    {value: 'KH', viewValue: 'KH'},    
     {value: 'IC', viewValue: 'IC'},    
     {value: 'HC', viewValue: 'HC'},
     {value: 'BC', viewValue: 'BC'}
   ];
 
- 
   showBarCode = false;
-
 
   constructor(private batchService: BatchService, private dialog: MatDialog) { }
 
@@ -44,17 +46,31 @@ export class BarcodeComponent implements OnInit {
   }
 
   onSaveAndPrintClick() {    
-    this.serial_no = this.printBarcodeForm.value.serialnumber;
+    this.serial_no = this.printBarcodeForm.value.serialnumber;  
+    this.barcode_slno = this.serial_no.toString().padStart(6,'0');
+    const batchtype = this.printBarcodeForm.value.batchtype;
+
     let dialogConfig;
  
-    let batch = this.batchesList.find(element => element.batchname == this.printBarcodeForm.value.batchname)
-    let found = this.batchesList.find(element => (parseInt(element.serial_start) <= parseInt(this.serial_no) && parseInt(element.serial_end) >= parseInt(this.serial_no)));   
+    let batch = this.batchesList.find(element => {
+      if(element.batchtype == this.printBarcodeForm.value.batchtype && element.batchname == this.printBarcodeForm.value.batchname) {
+        return element;
+      }
+    })
+    let found = this.batchesList.find(element => {
+      if(element.batchtype == this.printBarcodeForm.value.batchtype && (parseInt(element.serial_start) <= parseInt(this.serial_no) && parseInt(element.serial_end) >= parseInt(this.serial_no))) {
+        return element;
+      } 
+    });   
 
     if(batch) {
       if(found) {
         let data = {
-          "batchname": this.printBarcodeForm.value.batchname
+          "batchname": this.printBarcodeForm.value.batchname,
+          "batchtype": this.printBarcodeForm.value.batchtype
         };
+        this.barcode_txt = this.printBarcodeForm.value.batchname+"-"+this.serial_no+"-"+this.printBarcodeForm.value.weight;
+        console.log(this.barcode_txt);
         this.batchService.rejectedCylindersList(data).subscribe(responseData => {
           let rejectionsList;
           if(responseData.status == '1') {    
@@ -62,21 +78,24 @@ export class BarcodeComponent implements OnInit {
             let rejected_batch = rejectionsList.find(element => element.serial_number == this.serial_no);
             if(rejected_batch) {
               dialogConfig = {
-                description: "Rejected Serial Number."+this.serial_no
+                description: "The Cylinder "+this.serial_no+"is already rejected in quality audit."
               }
               this.dialog.open(AppDialogComponent, { 
                 data: dialogConfig
               });              
               return;
             }
-          }  
+          } 
 
-          this.barcode_weight = this.printBarcodeForm.value.weight.toFixed(1);
-          
+          this.barcode_weight = parseFloat(this.printBarcodeForm.value.weight).toFixed(1)+"kg";
+          this.Subslot = this.batchService.getSubSlot(this.serial_no,batch.serial_start);
           this.batchService.saveBarCode(this.printBarcodeForm.value).subscribe(responseData => {
             if(responseData.status == '1') {              
               this.showBarCode = true;
-
+              this.printBarcodeForm.patchValue({
+                serialnumber: "",
+                weight: ""
+              });
             } else if(responseData.status == '3') {
               let cylinder = responseData.data.cylindername;
               dialogConfig = {
@@ -100,6 +119,10 @@ export class BarcodeComponent implements OnInit {
                       });   
                       
                       this.showBarCode = true;
+                      this.printBarcodeForm.patchValue({
+                        serialnumber: "",
+                        weight: ""
+                      });
                     }
                   }); 
                 }
@@ -129,6 +152,19 @@ export class BarcodeComponent implements OnInit {
       this.showBarCode = false;
       return;
     } 
+  }
+
+  refreshWeight() {
+    this.batchService.getTareWeight().subscribe(responseData => {
+      if(responseData.status == "1") {
+        let tareweight = responseData.data.weight;
+        console.log('weight'+tareweight);
+        this.printBarcodeForm.patchValue({
+          weight: tareweight
+        })
+      }
+    });
+    return false;  
   }
 
 }

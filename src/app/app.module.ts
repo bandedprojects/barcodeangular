@@ -30,6 +30,8 @@ import { PneumaticreportComponent } from './dashboard/reports/pneumatic/pneumati
 import { BarcodeComponent } from './dashboard/barcode/barcode.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { TareweightComponent } from './dashboard/reports/tareweight/tareweight.component';
+import { DispatchComponent } from './dashboard/dispatch/dispatch/dispatch.component';
+import { EditDispatchComponent } from './dashboard/dispatch/edit-dispatch/edit-dispatch.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { TareweightComponent } from './dashboard/reports/tareweight/tareweight.c
     HstreportsComponent,
     PneumaticreportComponent,
     BarcodeComponent,
-    TareweightComponent
+    TareweightComponent,
+    DispatchComponent,
+    EditDispatchComponent
   ],
   imports: [
     BrowserModule,

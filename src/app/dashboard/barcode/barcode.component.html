@@ -2,7 +2,7 @@
     <section fxLayout fxFlex ="100%" fxLayoutAlign="center">   
         <mat-card fxFlex="500px">
             <mat-card-title></mat-card-title>              
-                <mat-card-content >      
+                <mat-card-content>      
                 <form fxLayout="column" [formGroup]="printBarcodeForm" (ngSubmit) = "onSaveAndPrintClick()" fxLayoutAlign="center" fxLayoutGap="10px">         
                     <mat-form-field>
                         <mat-select formControlName="batchtype"  placeholder="Batch Type">
@@ -19,20 +19,24 @@
                     <mat-form-field>
                         <input type="number" matInput placeholder="Serial Number" formControlName="serialnumber" required>
                     </mat-form-field>
-
-                    <mat-form-field>
-                        <input type="number" matInput placeholder="Weight (In kg)" formControlName="weight" required>
-                    </mat-form-field>
-                    
-                    <div fxLayout="row" fxfill fxLayoutGap ="20px" fxLayoutAlign="space-evenly center">
+                    <div fxLayout="row" fxLayoutAlign="space-evenly center" fxFlex ="100%" >
+                        <mat-form-field >
+                            <input type="number" matInput placeholder="Weight (In kg)" formControlName="weight" required>                           
+                        </mat-form-field>        
+                        <button type="button" (click)="refreshWeight()" mat-raised-button color="primary">Refresh</button>                
+                    </div>
+                   
+                    <div fxLayout="row" fxfill fxLayoutAlign="space-evenly center" fxFlex ="100%" >
                         <button mat-raised-button color="primary">Generate</button>
+                      
                     </div>    
                 </form>     
                        
                 </mat-card-content>
         </mat-card>
     </section>
-    <section fxLayout fxFlex ="100%" fxLayoutAlign="center" *ngIf="showBarCode">
+    
+    <!--<section fxLayout fxFlex ="100%" fxLayoutAlign="center" *ngIf="showBarCode">
         <div fxLayout="column" fxLayoutAlign="end" fxFlex="500px" style="text-align:right">
             <div>
                     <button mat-raised-button color="primary" [useExistingCss]="true" printSectionId="barcode_section_print" ngxPrint>Print</button>  
@@ -40,22 +44,72 @@
         </div>                
     </section>  
 
-    <section id="barcode_section" fxLayout fxFlex ="100%" fxLayoutAlign="center stretch" *ngIf="showBarCode" >              
+   <section id="barcode_section" fxLayout fxFlex ="100%" fxLayoutAlign="center stretch" *ngIf="showBarCode" >              
             
         <div fxLayout="column" id="barcode_section_print" fxLayoutAlign="center" style="width:3in;height:2in;padding:0px;border:0px;"> 
-            <div style="width:100%" style="padding-top:5px;" fxLayout="row" fxLayoutAlign="center center">KSFPL</div>
-            <div style="width:100%" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap ="10px">
+            <div style="width:100%" style="padding-top:5px;" fxLayout="row" fxLayoutAlign="center center">
+                <div>KSFPL</div>
+                <div style="margin-left:1in">{{Subslot}}</div>
+            </div>
+            <div style="width:100%" fxLayout="row" fxLayoutAlign="center center">
                <div> {{ printBarcodeForm.value.batchname}} </div>
-               <div> Weight: {{barcode_weight}}</div>
+               <div style="margin-left:0.5in"> Weight (kg): {{barcode_weight}}</div>
             </div>
             <div id="barcode_div" style="width:100%" fxLayout="row" fxLayoutAlign="center start">
                 <ngx-barcode 
-                [bc-value]="serial_no" 
-                [bc-display-value]="true"
+                [bc-value]="barcode_txt" 
+                [bc-width]=1.1
+                [bc-height]=75
+                [bc-display-value]="false"
                 [bc-text-align]="center">
                 </ngx-barcode>
             </div>
+            <div style="width:100%" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap ="0px">
+                <div> Serial Number: {{ serial_no }} </div>
+            </div>
         </div>
     </section>    
+
+<div></div>-->
+   <section fxLayout fxFlex ="100%" fxLayoutAlign="center" *ngIf="showBarCode">
+        <div fxLayout="column" fxLayoutAlign="end" fxFlex="500px" style="text-align:right">
+            <div>
+                    <button mat-raised-button color="primary" [useExistingCss]="true" printSectionId="barcode_section_print1" ngxPrint>Print</button>  
+            </div>                  
+        </div>                
+    </section>  
+
+    <section id="barcode_section" fxLayout fxFlex ="100%" fxLayoutAlign="center stretch" *ngIf="showBarCode" >              
+            
+        <div fxLayout="column" id="barcode_section_print1" fxLayoutAlign="center" style="font-size:10px;width:5cm;height: 2.5cm;padding:0px;border:0px;"> 
+           <div fxLayout="row" style="margin-left: 10px; margin-right: 10px" fxLayoutAlign="space-between center">
+                <div fxLayout="column" fxLayoutAlign="start start">
+                    <div style="font-size:10px;font-weight:bold">KSFPL</div>
+                    <div> Weight:{{barcode_weight}}</div>
+                    <div>Lot: {{Subslot}}</div>                            
+                </div>
+                <div fxLayout="column"  fxLayoutAlign="center end">
+                    <div style="font-size:14px;font-weight:bold"> {{ printBarcodeForm.value.batchname}} </div>                
+                    <div> SR.No:<b>{{ barcode_slno }}</b> </div>     
+                </div>
+           </div>
+            
+            <div id="barcode_div" style="width:100%" fxLayout="row" fxLayoutAlign="center start">
+                <ngx-barcode 
+                [bc-value]="serial_no" 
+                [bc-width]=2
+                [bc-margin]="0" 
+                [bc-text-margin]="0"
+                [bc-margin-top]="2" 
+                [bc-margin-bottom]="2"
+                [bc-height]=45
+                [bc-display-value]="false"
+                [bc-text-align]="center">
+                </ngx-barcode>
+            </div>
+           
+        </div>
+    </section>    
+
 
 </section>
