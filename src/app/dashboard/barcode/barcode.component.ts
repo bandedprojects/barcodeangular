@@ -58,7 +58,7 @@ export class BarcodeComponent implements OnInit {
       }
     })
     let found = this.batchesList.find(element => {
-      if(element.batchtype == this.printBarcodeForm.value.batchtype && (parseInt(element.serial_start) <= parseInt(this.serial_no) && parseInt(element.serial_end) >= parseInt(this.serial_no))) {
+      if(element.batchname == this.printBarcodeForm.value.batchname && element.batchtype == this.printBarcodeForm.value.batchtype && (parseInt(element.serial_start) <= parseInt(this.serial_no) && parseInt(element.serial_end) >= parseInt(this.serial_no))) {
         return element;
       } 
     });   
