@@ -44,6 +44,8 @@ export class EditDispatchComponent implements OnInit {
   total_cylinder;
   today: number;
   TareWeightPostData: {};
+  tareweight_completed = "";
+  total_cylinders;
   tareWeghtBkp = [];
 
   constructor(private batchService: BatchService, private dialog:MatDialog) { }
@@ -81,7 +83,7 @@ export class EditDispatchComponent implements OnInit {
       //this.dataSource.data = this.searchData;
     }  else {
       let filteredTareWeight = this.tareWeghtBkp.filter(element => element.dispatch_status == value);
-      console.log(filteredTareWeight);
+      //console.log(filteredTareWeight);
       this.dataSource.data = this.batchService.prepareDispatchDataSource(filteredTareWeight);
     }
 
@@ -127,11 +129,14 @@ export class EditDispatchComponent implements OnInit {
   updateDispatch() {
     this.batchService.tareweightCylindersList(this.TareWeightPostData).subscribe(responseData => {
       let tareweight_cylinders = {};
-      var dialogConfig = {};
+      var dialogConfig = {};  
+
       if(responseData.status == '1') {
          this.tareWeghtBkp = tareweight_cylinders = responseData.data.tareweight;
          this.displayBatchSection = true;
-         this.dataSource.data = this.batchService.prepareDispatchDataSource(tareweight_cylinders);                 
+         this.dataSource.data = this.batchService.prepareDispatchDataSource(tareweight_cylinders);    
+       
+         this.tareweight_completed =  this.tareWeghtBkp.length+'/'+this.total_cylinders;             
       } else if(responseData.status == '0') {
         dialogConfig = {
           description: "Tareweight list is empty."
@@ -161,6 +166,8 @@ export class EditDispatchComponent implements OnInit {
       if(searchBatch && searchBatch.batchname) {
         let start = searchBatch.serial_start;
         let end = searchBatch.serial_end;
+        this.total_cylinders = (end - start) + 1;
+        this.tareweight_completed = '0/'+this.total_cylinders;
         var dialogConfig = {};
         let error = false;
         if(this.prepareBatchForm.value.batch_name.indexOf('-') != -1) {
