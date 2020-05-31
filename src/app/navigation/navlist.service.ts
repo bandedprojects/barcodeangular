@@ -55,8 +55,8 @@ export class NavListService {
             url: '/dispatch',
             color:"basic",
             sidenav: [
-                { name: 'Dispatch', url: '/dispatch' },
-                { name: 'Edit Dispatch', url: '/editdispatch'}
+                { name: 'Dispatch a batch', url: '/dispatch' },
+                { name: 'Update Dispatch Status', url: '/editdispatch'}
             ]            
         }
     ];
