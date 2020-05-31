@@ -28,10 +28,48 @@ export class BatchService {
         this.batchData = [];
         let batchItem;
         let status = "OK";
-        let col_length =  Math.ceil((end - start)/6);
-        let start_row_sl_no = start;
+        //let col_length =  Math.ceil((end - start)/6);
+        //let start_row_sl_no = start;
+        batchItem = {};
+        let k =1;
+        let end_serial_no =  Math.floor((start + end)/6);
 
-        for(let i=0;i<col_length;i++) {
+        //let serial_number1 =  end_serial_no+1;
+       
+        for(let i= start; i <= end;i++) {                   
+             let serial_no_index = "serial_no"+k;
+             let status_key = "status"+k;
+
+             let rejectedSerialNo
+             if(rejectionsList.length) {
+                 rejectedSerialNo = rejectionsList.find(element => element.serial_number == i);
+             }
+             
+             if(rejectedSerialNo != undefined && rejectedSerialNo.rejection_type == report) {
+                 status = "REJECTED";
+             } else {
+                 status = "OK"
+             }
+
+           
+            batchItem = {
+                ...batchItem,
+                [serial_no_index]: i.toString().padStart(6,'0'),
+                [status_key]: status
+            }
+
+            if(k==6 || i == end) {
+                k=1;
+                this.batchData.push(batchItem); 
+                batchItem = {};
+            } else {
+                ++k;
+            }               
+        }  
+       
+        return this.batchData.slice();
+
+       /* for(let i=0;i<col_length;i++) {
             batchItem = {};
             
             for(var j=1;j<=6;j++) {
@@ -59,19 +97,84 @@ export class BatchService {
             this.batchData.push(batchItem);  
             ++start_row_sl_no; 
             
-        }
+        }*/
         
         return this.batchData.slice();
+    }
+
+    roundOFF(num: any) {  
+       let n =  parseFloat(num) * 100;   
+        num = (parseInt(n.toString()))/10;
+        var decimalnum = parseInt(num);
+        num = num - decimalnum;
+        if(num >= 0.5)
+            decimalnum++;
+        return decimalnum /10;
     }
 
     prepareTareWeigthReportDataSource(start: number, end: number, tareweightCylinders:any) {
         this.batchData = [];
         let batchItem;
+        batchItem = {};
         let status = "OK";
-        let col_length =  Math.ceil((end - start)/2);
-        let start_row_sl_no = start;
+        let j =1;
 
-        for(let i=0;i<col_length;i++) {
+        for(let i= start; i <= end;i++) { 
+            //batchItem = {};     
+            
+            let batch_tareweight;
+            if(tareweightCylinders.length) {
+                batch_tareweight = tareweightCylinders.find(element => element.serial_number == i);
+
+                let tare_weight_left_value = "0";
+                let tare_weight_right_value = "0";
+                let tareweight_value = "0";
+
+                if(batch_tareweight != undefined) {
+                    tareweight_value = batch_tareweight.weight;
+                    let tareweight_array = String(tareweight_value).split('.');
+                    if(tareweight_array.length) {
+                        tare_weight_left_value = tareweight_array[0];                        
+                    }
+                    if(tareweight_array.length > 1) {
+                        tare_weight_right_value = tareweight_array[1];
+                    }
+                    
+                    //tareweight_value = parseFloat(tareweight_value).toFixed(1);
+                    tareweight_value = this.roundOFF(tareweight_value).toString();
+                }
+                //const tareweight_value = batch_tareweight == undefined ? 0 : 0;
+              
+                
+                let serial_no_index = "serial_no"+j;
+                let tare_weight_left = "tare_weight_left"+j;
+                let tare_weight_right = "tare_weight_right"+j
+                let tareweight = "tareweight"+j;
+
+
+                batchItem = {
+                    ...batchItem,
+                    [serial_no_index]: i.toString().padStart(6,'0'),
+                    [tare_weight_left]: tare_weight_left_value,
+                    [tare_weight_right]: tare_weight_right_value,                    
+                    [tareweight]: tareweight_value
+                }
+
+                if(j==2 || i == end) {
+                    j=1;
+                    this.batchData.push(batchItem); 
+                    batchItem = {};
+                } else {
+                    ++j;
+                }          
+                
+            }
+            
+        }    
+        //let col_length =  Math.ceil((end - start)/2);
+        //let start_row_sl_no = start;
+
+        /*for(let i=0;i<col_length;i++) {
             batchItem = {};
             
             for(var j=1;j<=2;j++) {
@@ -117,9 +220,7 @@ export class BatchService {
             this.batchData.push(batchItem);  
             ++start_row_sl_no; 
             
-        }
-
-        console.log(this.batchData);
+        }*/
         
         return this.batchData.slice();
     }
@@ -217,7 +318,7 @@ export class BatchService {
 
         let end_serial_no =  Math.floor((start + end)/6);
 
-        let serial_number1 =  end_serial_no+1;
+        //let serial_number1 =  end_serial_no+1;
        
         for(let i= start; i <= end;i++) {      
              
@@ -292,5 +393,13 @@ export class BatchService {
 
     changeDispatch(data: any) {
         return this.http.post<any>('/editdispatch',data);
+    }
+
+    updateDispatch(slNos,batchname) {
+        var data = {
+          "batchname": batchname,
+          "serialnumber": slNos
+        }
+        return this.http.post<any>('/updateDispatch',data);
     }
 }

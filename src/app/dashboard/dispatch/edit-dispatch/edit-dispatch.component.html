@@ -24,6 +24,25 @@
             </mat-card>
         </section>
         <section fxLayout fxFlex ="100%" fxLayoutAlign="center" *ngIf="displayBatchSection">
+               <!-- <app-upload></app-upload> -->
+               <section fxLayout fxLayoutAlign="center">   
+                <mat-card fxFlex="500px">
+                    <mat-card-title> Modify Dispatch Info </mat-card-title>                  
+                    <mat-card-content style="padding:20px;" >      
+                        <input type="file" #file style="display: none" id="uploadFileID" (change)="onFilesAdded($event.target.files);" multiple /> 
+                        <div>
+                            <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles()">
+                            Upload
+                            </button>
+                        </div>
+                       <!-- <div>
+                            <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn" (click)="uploadFileContent()">
+                                    Update Dispatch
+                            </button>
+                        </div> -->
+                    </mat-card-content>
+                </mat-card>
+        </section>
             <!--<div fxLayout="column" fxLayoutAlign="center" fxFlex="500px">
                 <div>
                         <button mat-raised-button color="primary" [useExistingCss]="true" printSectionId="prepare_batch_list" ngxPrint>Print</button>  

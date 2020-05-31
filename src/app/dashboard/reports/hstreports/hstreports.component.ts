@@ -13,7 +13,6 @@ import { AppDialogComponent } from 'src/app/app-dialog/app-dialog.component';
   styleUrls: ['./hstreports.component.css']
 })
 export class HstreportsComponent implements OnInit {
-
   showHSTReport = false;
   generateReportForm: FormGroup;
   batchesList = [];

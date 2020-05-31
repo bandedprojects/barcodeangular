@@ -31,7 +31,7 @@ export class ViewBatchComponent implements OnInit {
     this.batchService.getBatchList()
       .pipe(map(responseData => {
         const batchesArray = [];
-        console.log(responseData.data.batches);
+        //console.log(responseData.data.batches);
 
         for(const key in responseData.data.batches) {
           const batch = responseData.data.batches[key];

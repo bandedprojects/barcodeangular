@@ -16,7 +16,10 @@ import { BatchService } from '../../batch/batch.service';
 export class EditDispatchComponent implements OnInit {
 
   prepareBatchForm: FormGroup;
- 
+  @ViewChild('file', { static: false }) file;
+  uploading = false;
+  uploadBatchname = "";
+  uploadSuccessful = false;
   batchName = "";
   batches = [];
  
@@ -73,7 +76,7 @@ export class EditDispatchComponent implements OnInit {
 
   onFilterChange() {
     const value = this.filterForm.value.filterValue;
-    if(value == 'All') {
+    if(value == '2') {
       this.dataSource.data = this.batchService.prepareDispatchDataSource(this.tareWeghtBkp);
       //this.dataSource.data = this.searchData;
     }  else {
@@ -179,5 +182,66 @@ export class EditDispatchComponent implements OnInit {
       }
     }  
   }
+
+  onFilesAdded(fileList: FileList) {
+    let file = fileList[0];
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    fileReader.onloadend = function(x) {
+      console.log('on load')
+      console.log(x);
+    }
+
+    fileReader.onerror = function(x) {
+      console.log('error');
+    }
+    fileReader.onload = function(x) {
+      if(typeof fileReader.result == "string") {
+        var allTextLines = fileReader.result.split(/\r\n|\n/);
+        allTextLines.shift();
+        var result = allTextLines.map(x => { 
+          let entry =  x.split(",");
+          if(entry.length) {
+            if(entry[entry.length-1])
+            self.uploadBatchname = entry[entry.length-1];
+            if(entry[1] != null)
+              return entry[1].trim();
+          }
+         
+        });
+        
+        self.batchService.updateDispatch(result,self.uploadBatchname).subscribe(responseData => {
+          let message = "";
+    
+          if(responseData.status == '1') {
+            message = "Dispatch status has been updated successfully.";
+            self.updateDispatch(); 
+          } else if(responseData.status == "0") {
+            message = "Dispatch Status updation failed.";
+          } 
+    
+          let dialogRef = self.dialog.open(AppDialogComponent, { 
+            data: {
+              description: message
+            }
+          });
+        });
+      } else {
+        alert("invalid file");
+      }
+    }
+    fileReader.readAsText(file);    
+    
+  }
+
+  addFiles() {  
+    this.file.nativeElement.click();
+    this.file.nativeElement.value = "";
+  }
+
+  uploadFileContent() {
+
+  }
+
 
 }

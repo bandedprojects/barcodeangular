@@ -87,7 +87,8 @@ export class BarcodeComponent implements OnInit {
             }
           } 
 
-          this.barcode_weight = parseFloat(this.printBarcodeForm.value.weight).toFixed(1)+"kg";
+         this.barcode_weight = this.batchService.roundOFF(this.printBarcodeForm.value.weight).toString()+"kg";
+         
           this.Subslot = this.batchService.getSubSlot(this.serial_no,batch.serial_start);
           this.batchService.saveBarCode(this.printBarcodeForm.value).subscribe(responseData => {
             if(responseData.status == '1') {              
